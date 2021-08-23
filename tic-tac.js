@@ -3,7 +3,7 @@ Vue.component('game', {
   template: `
     <div>
     <p>{{messagePrint}} </p>
-    <span v-if="gameOver==true"> Игра окончена </span>
+    <span v-if="gameOver==true"> {{winnerMessage}} </span>
       <table v-if="gameOver == false">
         <tr>
            <td hidden=true>{{tempCount}}</td>
@@ -65,6 +65,7 @@ Vue.component('game', {
       tempCount: 0,
       message: '',
       gameOver: false,
+      winnerMessage: 'Игра окончена. Победил: '
     }
   }, 
   
@@ -121,6 +122,11 @@ Vue.component('game', {
                         false, false, false,
                         false, false, false];
        },
+    
+    winnerPrint(cell){
+      cell=='X'?this.winnerMessage += ' Крестик' : this.winnerMessage+= ' Нолик';
+    },
+    
     gameIsFinished : function() {
       cells = this.gameField;
       if(
@@ -132,6 +138,7 @@ Vue.component('game', {
           this.winnerCombo[0] = cells[0];
           this.winnerCombo[1] = cells[1];
           this.winnerCombo[2] = cells[2];
+          this.winnerPrint(this.winnerCombo[0]);
       }
         
       else if(((cells[3] == cells[4] && cells[4] ==cells[5])
@@ -142,7 +149,7 @@ Vue.component('game', {
           this.winnerCombo[3] = cells[3];
           this.winnerCombo[4] = cells[4];
           this.winnerCombo[5] = cells[5];
-
+          this.winnerPrint(this.winnerCombo[0]);
       }
         
      else if(((cells[6] == cells[7] && cells[7] ==cells[8]) 
@@ -153,7 +160,7 @@ Vue.component('game', {
           this.winnerCombo[6] = cells[6];
           this.winnerCombo[7] = cells[7];
           this.winnerCombo[8] = cells[8];
-
+          this.winnerPrint(this.winnerCombo[0]);
       }
          
       else if(((cells[0] == cells[3] && cells[3] ==cells[6]) 
@@ -164,7 +171,7 @@ Vue.component('game', {
           this.winnerCombo[0] = cells[0];
           this.winnerCombo[3] = cells[3];
           this.winnerCombo[6] = cells[6];
-
+          this.winnerPrint(this.winnerCombo[0]);
       }
         
       else if(((cells[1] == cells[4] && cells[4] ==cells[7])   
@@ -175,7 +182,7 @@ Vue.component('game', {
           this.winnerCombo[1] = cells[1];
           this.winnerCombo[4] = cells[4];
           this.winnerCombo[7] = cells[7];
-
+          this.winnerPrint(this.winnerCombo[0]);
       }
         
       else if(((cells[2] == cells[5] && cells[5] ==cells[8])
@@ -186,7 +193,7 @@ Vue.component('game', {
           this.winnerCombo[2] = cells[2];
           this.winnerCombo[5] = cells[5];
           this.winnerCombo[8] = cells[8];
-
+          this.winnerPrint(this.winnerCombo[0]);
       }
         
      else if(((cells[0] == cells[4] && cells[4] ==cells[8])
@@ -197,7 +204,7 @@ Vue.component('game', {
           this.winnerCombo[0] = cells[0];
           this.winnerCombo[4] = cells[4];
           this.winnerCombo[8] = cells[8];
-
+          this.winnerPrint(this.winnerCombo[0]);
       }
         
        else if (((cells[2] == cells[4] && cells[4] ==cells[6]) 
@@ -208,14 +215,16 @@ Vue.component('game', {
           this.winnerCombo[2] = cells[2];
           this.winnerCombo[4] = cells[4];
           this.winnerCombo[6] = cells[6];
-
+          this.winnerPrint(this.winnerCombo[0]);
       }
         
       else if (((cells[0] && cells[1] && cells[2] && cells[3] && cells[4] &&
          cells[5] && cells[6] && cells[7] && cells[8]))
       ){
+          console.log('kek');
           this.hasWinner = false;
           this.gameOver = true;
+          this.winnerMessage = 'Ничья';
       }
     },
     
